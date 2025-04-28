@@ -1,3 +1,3 @@
 # GPfactor
 
-This repository uses gplearn to release factor mining.
+This repository uses GPlearn to release factor mining.
