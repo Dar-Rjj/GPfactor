@@ -37,7 +37,11 @@ MAX_INT = np.iinfo(np.int32).max
 
 def _parallel_evolve(n_programs, parents, X, y, sample_weight, seeds, params):
     """Private function used to build a batch of programs within a job."""
-    n_samples, n_features = X.shape
+    
+    ## Change
+    n_samples, n_features = X.shape[0] * X.shape[1], X.shape[2]
+    ##
+
     # Unpack parameters
     tournament_size = params['tournament_size']
     function_set = params['function_set']
@@ -288,28 +292,30 @@ class BaseSymbolic(BaseEstimator, metaclass=ABCMeta):
         if sample_weight is not None:
             sample_weight = _check_sample_weight(sample_weight, X)
 
-        if isinstance(self, ClassifierMixin):
-            X, y = self._validate_data(X, y, y_numeric=False)
-            check_classification_targets(y)
+        ## Change later
+        # if isinstance(self, ClassifierMixin):
+        #     X, y = self._validate_data(X, y, y_numeric=False)
+        #     check_classification_targets(y)
 
-            if self.class_weight:
-                if sample_weight is None:
-                    sample_weight = 1.
-                # modify the sample weights with the corresponding class weight
-                sample_weight = (sample_weight *
-                                 compute_sample_weight(self.class_weight, y))
+        #     if self.class_weight:
+        #         if sample_weight is None:
+        #             sample_weight = 1.
+        #         # modify the sample weights with the corresponding class weight
+        #         sample_weight = (sample_weight *
+        #                          compute_sample_weight(self.class_weight, y))
 
-            self.classes_, y = np.unique(y, return_inverse=True)
-            n_trim_classes = np.count_nonzero(np.bincount(y, sample_weight))
-            if n_trim_classes != 2:
-                raise ValueError("y contains %d class after sample_weight "
-                                 "trimmed classes with zero weights, while 2 "
-                                 "classes are required."
-                                 % n_trim_classes)
-            self.n_classes_ = len(self.classes_)
+        #     self.classes_, y = np.unique(y, return_inverse=True)
+        #     n_trim_classes = np.count_nonzero(np.bincount(y, sample_weight))
+        #     if n_trim_classes != 2:
+        #         raise ValueError("y contains %d class after sample_weight "
+        #                          "trimmed classes with zero weights, while 2 "
+        #                          "classes are required."
+        #                          % n_trim_classes)
+        #     self.n_classes_ = len(self.classes_)
 
-        else:
-            X, y = self._validate_data(X, y, y_numeric=True)
+        # else:
+        #     X, y = self._validate_data(X, y, y_numeric=True)
+        ##
 
         hall_of_fame = self.hall_of_fame
         if hall_of_fame is None:

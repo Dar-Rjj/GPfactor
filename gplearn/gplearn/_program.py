@@ -354,12 +354,14 @@ class _Program(object):
             The result of executing the program on X.
 
         """
+        ## Change later
         # Check for single-node programs
         node = self.program[0]
         if isinstance(node, float):
-            return np.repeat(node, X.shape[0])
+            return np.full((X.shape[0], X.shape[1]), node)
         if isinstance(node, int):
-            return X[:, node]
+            return X[:, :, node]
+        ##
 
         apply_stack = []
 
@@ -374,10 +376,19 @@ class _Program(object):
             while len(apply_stack[-1]) == apply_stack[-1][0].arity + 1:
                 # Apply functions that have sufficient arguments
                 function = apply_stack[-1][0]
-                terminals = [np.repeat(t, X.shape[0]) if isinstance(t, float)
-                             else X[:, t] if isinstance(t, int)
+
+                ## Change
+                # terminals = [np.repeat(t, X.shape[0]) if isinstance(t, float)
+                #              else X[:, t] if isinstance(t, int)
+                #              else t for t in apply_stack[-1][1:]]
+                # intermediate_result = function(*terminals)
+                
+                terminals = [np.full((X.shape[0], X.shape[1]), t) if isinstance(t, float)
+                             else X[:, :, t] if isinstance(t, int)
                              else t for t in apply_stack[-1][1:]]
                 intermediate_result = function(*terminals)
+                ##
+
                 if len(apply_stack) != 1:
                     apply_stack.pop()
                     apply_stack[-1].append(intermediate_result)
@@ -462,7 +473,11 @@ class _Program(object):
         y_pred = self.execute(X)
         if self.transformer:
             y_pred = self.transformer(y_pred)
-        raw_fitness = self.metric(y, y_pred, sample_weight)
+
+        ## Change
+        # raw_fitness = self.metric(y, y_pred, sample_weight)
+        raw_fitness = self.metric(y.flatten(), y_pred.flatten(), sample_weight)
+        ##
 
         return raw_fitness
 
