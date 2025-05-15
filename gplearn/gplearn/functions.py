@@ -149,6 +149,26 @@ def _sigmoid(x1):
     with np.errstate(over='ignore', under='ignore'):
         return 1 / (1 + np.exp(-x1))
 
+### These are functions you should realize
+def _delay(x1, d):
+    pass
+
+def _scale(x1, a):
+    pass
+
+def _signedpower(x1, a):
+    pass
+
+def _decay_linear(x1, d):
+    pass
+
+def _ts_min(x1, d):
+    pass
+
+def _ts_max(x1, d):
+    pass
+###
+
 
 add2 = _Function(function=np.add, name='add', arity=2)
 sub2 = _Function(function=np.subtract, name='sub', arity=2)
@@ -165,6 +185,12 @@ sin1 = _Function(function=np.sin, name='sin', arity=1)
 cos1 = _Function(function=np.cos, name='cos', arity=1)
 tan1 = _Function(function=np.tan, name='tan', arity=1)
 sig1 = _Function(function=_sigmoid, name='sig', arity=1)
+delay2 = _Function(function=_delay, name='delay', arity=2)
+scale2 = _Function(function=_scale, name='scale', arity=2)
+signedpower2 = _Function(function=_signedpower, name='signedpower', arity=2)
+decay_linear2 = _Function(function=_decay_linear, name='decay_linear', arity=2)
+ts_min2 = _Function(function=_ts_min, name='ts_min', arity=2)
+ts_max2 = _Function(function=_ts_max, name='ts_max', arity=2)
 
 _function_map = {'add': add2,
                  'sub': sub2,
@@ -179,4 +205,11 @@ _function_map = {'add': add2,
                  'min': min2,
                  'sin': sin1,
                  'cos': cos1,
-                 'tan': tan1}
+                 'tan': tan1,
+                 'sig': sig1,
+                 'delay': delay2,
+                 'scale': scale2,
+                 'signedpower': signedpower2,
+                 'decay_linear': decay_linear2,
+                 'ts_min': ts_min2,
+                 'ts_max': ts_max2}
