@@ -354,7 +354,7 @@ class _Program(object):
             The result of executing the program on X.
 
         """
-        ## Change later
+        ## Change
         # Check for single-node programs
         node = self.program[0]
         if isinstance(node, float):
