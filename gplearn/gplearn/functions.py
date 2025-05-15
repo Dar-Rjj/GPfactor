@@ -149,6 +149,8 @@ def _sigmoid(x1):
     with np.errstate(over='ignore', under='ignore'):
         return 1 / (1 + np.exp(-x1))
 
+
+### Tasks
 ### These are functions you should realize
 def _delay(x1, d):
     pass
